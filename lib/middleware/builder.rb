@@ -34,7 +34,8 @@ module Middleware
     #   like {#use} and such.
     def initialize(opts=nil, &block)
       opts ||= {}
-      @runner_class = opts[:runner_class] || Runner
+      @runner_class   = opts[:runner_class] || Runner
+      @reuse_instance = opts[:reuse_instance]
       instance_eval(&block) if block_given?
     end
 
@@ -100,7 +101,11 @@ module Middleware
 
     # Runs the builder stack with the given environment.
     def call(env=nil)
-      to_app.call(env)
+      if @reuse_instance
+        runner_instance.call(env)
+      else
+        to_app.call(env)
+      end
     end
 
     protected
@@ -130,6 +135,10 @@ module Middleware
     # @return [Object] A callable object
     def to_app
       @runner_class.new(stack.dup)
+    end
+
+    def runner_instance
+      @runner_instance ||= to_app
     end
   end
 end
