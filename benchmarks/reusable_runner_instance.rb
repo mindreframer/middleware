@@ -164,7 +164,7 @@ Benchmark.ips do |x|
     ApiStackReuse.call(env)
   }
 
-  x.report("direct implementation") {
+  x.report("direct stack") {
     env = {}
     ApiDirect.call(env)
   }
@@ -175,17 +175,15 @@ end
 
 ### results
 # Calculating -------------------------------------
-#         normal stack     8.379k i/100ms
-#          reuse stack    17.645k i/100ms
-# direct implementation
-#                         20.979k i/100ms
+#         normal stack     8.621k i/100ms
+#          reuse stack    17.643k i/100ms
+#         direct stack    21.179k i/100ms
 # -------------------------------------------------
-#         normal stack     96.754k (± 7.0%) i/s -    485.982k
-#          reuse stack    242.853k (± 7.2%) i/s -      1.218M
-# direct implementation
-#                         282.641k (± 7.2%) i/s -      1.406M
+#         normal stack     98.986k (± 6.4%) i/s -    500.018k
+#          reuse stack    243.372k (± 6.4%) i/s -      1.217M
+#         direct stack    285.986k (± 5.7%) i/s -      1.440M
 
 # Comparison:
-# direct implementation:   282640.9 i/s
-#          reuse stack:   242853.0 i/s - 1.16x slower
-#         normal stack:    96753.6 i/s - 2.92x slower
+#         direct stack:   285985.9 i/s
+#          reuse stack:   243372.1 i/s - 1.18x slower
+#         normal stack:    98986.1 i/s - 2.89x slower

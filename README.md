@@ -72,5 +72,5 @@ And the output:
 ## Benchmarks
 
 ```
-  $ ruby benchmarks/reusable_runner_instance.rb
+  $ make benchmark
 ```
