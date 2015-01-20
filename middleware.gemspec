@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["mitchell.hashimoto@gmail.com"]
   gem.description   = %q{Generalized implementation of the middleware abstraction for Ruby.}
   gem.summary       = %q{Generalized implementation of the middleware abstraction for Ruby.}
-  gem.homepage      = "https://github.com/mitchellh/middleware"
+  gem.homepage      = "https://github.com/mindreframer/middleware"
   gem.license       = "MIT"
 
   gem.add_development_dependency "rake"

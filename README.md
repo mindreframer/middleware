@@ -2,6 +2,10 @@
 
 [![Build Status](https://secure.travis-ci.org/mitchellh/middleware.png?branch=master)](http://travis-ci.org/mitchellh/middleware)
 
+
+-- currently a fork to play with some non-generalizable ideas ---
+
+
 This is a generalized library for using middleware patterns within
 your Ruby projects.
 
