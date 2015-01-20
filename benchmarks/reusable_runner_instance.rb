@@ -1,3 +1,9 @@
+require 'bundler'
+Bundler.setup
+require 'middleware'
+require 'benchmark/ips'
+
+
 class FrontParamsValidator
   def initialize(app)
     @app = app
