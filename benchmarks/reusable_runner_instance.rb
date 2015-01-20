@@ -95,6 +95,39 @@ class PrepareEnvironment
   end
 end
 
+class ApiDirect
+  def self.call(env)
+    begin
+      env[:response]||= {}
+      env[:api_params]||= {}
+      if errors = validate_params(env[:front_params])
+        env[:response][:errors] = errors
+      else
+        (env[:api_params]||={})[:modified] = true
+        env[:response][:works] = true
+
+        (env[:response][:multi_modifier]||=[]) << 'called with ' + 'first'
+        (env[:response][:multi_modifier]||=[]) << 'called with ' + 'second'
+        env[:api_params][:after] = true
+      end
+
+    rescue => ex
+      puts ex
+      puts ex.backtrace
+      hash = { :message => ex.to_s }
+      hash[:backtrace] = ex.backtrace
+      env['api.errors'] = MultiJson.dump(hash)
+      env
+    end
+  end
+
+  def self.validate_params(params)
+    if false
+      return [{msg: 'Bad format for param xyz!'}]
+    end
+  end
+end
+
 
 ApiStack = Middleware::Builder.new do
   use ExceptionHandling
@@ -129,6 +162,11 @@ Benchmark.ips do |x|
   x.report("reuse stack") {
     env = {}
     ApiStackReuse.call(env)
+  }
+
+  x.report("direct implementation") {
+    env = {}
+    ApiDirect.call(env)
   }
 
   x.compare!
