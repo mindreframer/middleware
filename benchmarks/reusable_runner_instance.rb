@@ -115,7 +115,7 @@ class ApiDirect
       puts ex
       puts ex.backtrace
       hash = { :message => ex.to_s }
-      hash[:backtrace] = ex.backtrace
+      hash[:backtrace]  = ex.backtrace
       env['api.errors'] = MultiJson.dump(hash)
       env
     end
@@ -151,8 +151,8 @@ ApiStackReuse = Middleware::Builder.new(reuse_instance: true) do
 end
 
 Benchmark.ips do |x|
-  x.time   = 2
-  x.warmup = 1
+  x.time   = 5
+  x.warmup = 2
 
   x.report("normal stack") {
     env = {}
@@ -171,3 +171,21 @@ Benchmark.ips do |x|
 
   x.compare!
 end
+
+
+### results
+# Calculating -------------------------------------
+#         normal stack     8.379k i/100ms
+#          reuse stack    17.645k i/100ms
+# direct implementation
+#                         20.979k i/100ms
+# -------------------------------------------------
+#         normal stack     96.754k (± 7.0%) i/s -    485.982k
+#          reuse stack    242.853k (± 7.2%) i/s -      1.218M
+# direct implementation
+#                         282.641k (± 7.2%) i/s -      1.406M
+
+# Comparison:
+# direct implementation:   282640.9 i/s
+#          reuse stack:   242853.0 i/s - 1.16x slower
+#         normal stack:    96753.6 i/s - 2.92x slower
